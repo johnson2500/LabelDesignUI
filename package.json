@@ -17,6 +17,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-preact-pure": "^4.0.0",
     "eslint": "^8.30.0",
@@ -24,13 +25,14 @@
     "jest": "^27.0.0",
     "jest-preset-preact": "^4.0.5",
     "preact-cli": "^3.4.2",
-    "sirv-cli": "^2.0.2",
-    "cross-env": "^7.0.3"
+    "serve": "^14.2.4",
+    "sirv-cli": "^2.0.2"
   },
   "dependencies": {
     "preact": "^10.11.3",
     "preact-render-to-string": "^5.2.6",
-    "preact-router": "^3.2.1"
+    "preact-router": "^3.2.1",
+    "serve": "^14.2.4"
   },
   "jest": {
     "preset": "jest-preset-preact",
