@@ -1,1 +1,1 @@
-export const baseUrl = process.env.API_BASE_URL || "http://localhost:3000";
+export const baseUrl = "https://indeslb-06199c886a7f.herokuapp.com";

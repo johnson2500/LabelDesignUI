@@ -58,13 +58,6 @@ export const App = () => {
         {mode === "create" ? "Create Mode" : "Edit Mode"}
       </h1>
 
-      <button onClick={showOld}>See Old</button>
-
-      {urls &&
-        urls.map((url) => {
-          return <img src={url} />;
-        })}
-
       <button
         onClick={toggleMode}
         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
@@ -82,6 +75,14 @@ export const App = () => {
           <MultiWidgetDashboard />
         </div>
       )}
+
+      <h1>ALL PHOTOS</h1>
+      <button onClick={showOld}>See Old Photos</button>
+
+      {urls &&
+        urls.map((url) => {
+          return <img src={url} />;
+        })}
     </div>
   );
 };

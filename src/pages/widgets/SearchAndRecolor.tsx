@@ -58,8 +58,8 @@ export function ImageSearchRecolorTool() {
   };
 
   return (
-    <div class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg space-y-4 mt-16">
-      <h3 class="text-xl font-semibold">Search & Recolor</h3>
+    <div class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-4">
+      <h1 class="text-2xl font-semibold">Search & Recolor</h1>
 
       <input
         type="file"
@@ -67,17 +67,6 @@ export function ImageSearchRecolorTool() {
         onChange={handleFileChange}
         class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
       />
-
-      {filePreview && (
-        <div class="mt-2">
-          <p class="text-sm text-gray-600 mb-1">Original Image:</p>
-          <img
-            src={filePreview}
-            alt="Uploaded"
-            class="w-full rounded border border-gray-200"
-          />
-        </div>
-      )}
 
       <input
         type="text"
@@ -88,18 +77,14 @@ export function ImageSearchRecolorTool() {
       />
 
       <input
-        name={"select_prompt"}
         type="text"
-        placeholder="Select Prompt"
+        placeholder="Additional Prompt"
         value={additionalPrompt}
         onInput={(e) =>
           setAdditionalPrompt((e.target as HTMLInputElement).value)
         }
         class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-400"
       />
-      <label htmlFor="select_prompt">
-        Used to select the item or thing you want to recolor.
-      </label>
 
       <button
         onClick={handleSubmit}
@@ -113,14 +98,25 @@ export function ImageSearchRecolorTool() {
         {loading ? "Processing..." : "Submit"}
       </button>
 
-      {imageUrl && (
-        <div class="mt-4">
-          <p class="text-sm text-gray-600 mb-1">Edited Image:</p>
-          <img
-            src={imageUrl}
-            alt="Result"
-            class="w-full rounded border border-gray-200"
-          />
+      {filePreview && imageUrl && (
+        <div class="flex flex-col md:flex-row justify-between gap-6 mt-6">
+          <div class="flex-1">
+            <p class="text-sm text-gray-600 mb-1">Original Image:</p>
+            <img
+              src={filePreview}
+              alt="Original"
+              class="w-full rounded border border-gray-200"
+            />
+          </div>
+
+          <div class="flex-1">
+            <p class="text-sm text-gray-600 mb-1">Edited Image:</p>
+            <img
+              src={imageUrl}
+              alt="Edited"
+              class="w-full rounded border border-gray-200"
+            />
+          </div>
         </div>
       )}
     </div>
