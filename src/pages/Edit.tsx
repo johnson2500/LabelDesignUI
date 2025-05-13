@@ -1,114 +1,60 @@
 import { useState } from 'preact/hooks';
-import { Spinner } from '../components/Spinner';
 
-export const editImageUrl = async (e: any) => {
-  e.preventDefault();
+export function CreateWidgetSelector() {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const formData = new FormData(e.target);
-  const prompt = formData.get('edit_prompt');
-  const additional_prompt = formData.get('additional_prompt');
-  const file = formData.get('file') as File;
-
-  if (!prompt || !file) {
-    throw new Error('Prompt and file are required');
-  }
-
-  const url = new URL(`http://localhost:3000/api/v1/image-editor/search-replace`);
-
-  const uploadFormData = new FormData();
-
-  uploadFormData.append('file', file);
-  uploadFormData.append('prompt', prompt.toString());
-
-  if (additional_prompt) {
-    uploadFormData.append('additional_prompt', additional_prompt.toString());
-  }
-
-  const res = await fetch(url.toString(), {
-    method: 'POST',
-    body: uploadFormData,
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to edit image');
-  }
-
-  const blob = await res.blob();
-
-  return URL.createObjectURL(blob);
-};
-
-export const EditImage = () => {
-  const [loading, setLoading] = useState(false);
-  const [spinnning, setSpinning] = useState(false);
-  const [editedImageUrl, setEditedImageUrl] = useState('');
-
-  const handleSubmitEdit = async (e: any) => {
-    try {
-      e.preventDefault();
-      setLoading(true);
-      setSpinning(true);
-
-      const res = await editImageUrl(e);
-
-      setEditedImageUrl(res);
-
-      setLoading(false);
-      setSpinning(false);
-    } catch (error) {
-      console.error('Error fetching image:', error);
-      setLoading(false);
-      setSpinning(false);
-    } finally {
-      setLoading(false);
-      setSpinning(false);
-    }
-  };
+  const widgets = [
+    { title: 'Widget 1', content: <WidgetOne /> },
+    { title: 'Widget 2', content: <WidgetTwo /> },
+    { title: 'Widget 3', content: <WidgetThree /> },
+    { title: 'Widget 4', content: <WidgetFour /> },
+    { title: 'Widget 5', content: <WidgetFive /> },
+  ];
 
   return (
-    <div class="container mx-auto mt-10" >
-      <div class="container mx-auto mt-10">
-        <form onSubmit={handleSubmitEdit} encType="multipart/form-data" class="space-y-4 p-6 bg-gray-100 rounded shadow-md">
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
+      <h1 class="text-2xl font-bold mb-4 text-gray-800">Widget Dashboard</h1>
 
-          <div class="mb-4">
-            <label class="block mb-1 font-medium">Prompt</label>
-            <input name="edit_prompt" type="text" required class="border p-2 w-full rounded" />
-          </div>
-          <div class="mb-4">
-            <label class="block mb-1 font-medium">Edit Type</label>
-            <select name="model" required class="border p-2 w-full rounded">
-              <option value="sd3.5-large">Search And Replace</option>
-              <option value="sd3.5-large-turbo">Search And Recolor</option>
-              <option value="sd3.5-medium">Remove Background</option>
-            </select>
-          </div>
-
-          <div class="mb-4">
-            <label class="block mb-1 font-medium">What you want replaced concisely</label>
-            <input name="additional_prompt" type="text" required class="border p-2 w-full rounded" />
-          </div>
-
-          <div class="mb-4">
-            <label class="block mb-1 font-medium">File</label>
-            <input name='file' type='file' required class="border p-2 w-full rounded" />
-          </div>
-
-          {spinnning && <Spinner />}
-
+      <div class="flex space-x-2 mb-6">
+        {widgets.map((widget, index) => (
           <button
-            type="submit"
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
-            disabled={loading}
+            key={index}
+            onClick={() => setActiveIndex(index)}
+            class={`px-4 py-2 text-sm font-medium rounded ${index === activeIndex
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
           >
-            {loading ? 'Generating...' : 'Submit'}
+            {widget.title}
           </button>
-
-          {editedImageUrl && <div class="mt-6">
-            <p class="font-medium mb-2">Edited Image:</p>
-            <img src={editedImageUrl} alt="Edited" class="mt-2 max-w-full border rounded" />
-          </div>}
-        </form>
+        ))}
       </div>
-    </ div >
+
+      <div class="p-4 border rounded bg-gray-50">
+        {widgets[activeIndex].content}
+      </div>
+    </div>
   );
+}
+
+// --- Dummy Widgets ---
+
+function WidgetOne() {
+  return <p>🧩 This is Widget One (e.g., Create Form)</p>;
+}
+
+function WidgetTwo() {
+  return <p>📊 This is Widget Two (e.g., Data Visualizer)</p>;
+}
+
+function WidgetThree() {
+  return <p>🖼️ This is Widget Three (e.g., Image Editor)</p>;
+}
+
+function WidgetFour() {
+  return <p>⚙️ This is Widget Four (e.g., Settings)</p>;
+}
+
+function WidgetFive() {
+  return <p>📁 This is Widget Five (e.g., File Manager)</p>;
 }
