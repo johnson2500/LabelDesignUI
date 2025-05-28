@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 import { Spinner } from "../components/Spinner";
-import { baseUrl } from "../constants";
+import { getImageUrl } from "../lib/getImageUrl";
 
 export type StableDiffusionPreset =
   | "3d-model"
@@ -21,37 +21,11 @@ export type StableDiffusionPreset =
   | "pixel-art"
   | "tile-texture";
 
-export async function getImageUrl(e: any, endpoint: string, preset: StableDiffusionPreset) {
-  const formData = new FormData(e.target);
-  const prompt = formData.get("prompt");
-
-  if (!prompt) {
-    throw new Error("Prompt is required");
-  }
-
-  const body = new FormData();
-  body.append("prompt", prompt.toString());
-  body.append("preset", preset);
-
-  const url = new URL(`${baseUrl}${endpoint}`);
-  const res = await fetch(url.toString(), { method: "POST", body });
-
-  if (
-    endpoint.includes("dalle2") ||
-    endpoint.includes("dalle3")
-  ) {
-    const data = await res.text();
-    return data;
-  } else {
-    const blob = await res.blob();
-    return URL.createObjectURL(blob);
-  }
-}
-
 export default function Create() {
   const [loading, setLoading] = useState(false);
   const [spinnning, setSpinning] = useState(false);
-  const [selectedPreset, setSelectedPreset] = useState<StableDiffusionPreset>("digital-art");
+  const [selectedPreset, setSelectedPreset] =
+    useState<StableDiffusionPreset>("digital-art");
 
   const [dalle2Url, setDalle2Url] = useState("");
   const [dalle3Url, setDalle3Url] = useState("");
@@ -71,11 +45,31 @@ export default function Create() {
         await Promise.all([
           getImageUrl(e, "/api/v1/image-generator/dalle2", selectedPreset),
           getImageUrl(e, "/api/v1/image-generator/dalle3", selectedPreset),
-          getImageUrl(e, "/api/v1/image-generator/diffusion/sd3", selectedPreset),
-          getImageUrl(e, "/api/v1/image-generator/diffusion/sd3-large", selectedPreset),
-          getImageUrl(e, "/api/v1/image-generator/diffusion/sd3-large-turbo", selectedPreset),
-          getImageUrl(e, "/api/v1/image-generator/diffusion/ultra", selectedPreset),
-          getImageUrl(e, "/api/v1/image-generator/diffusion/core", selectedPreset),
+          getImageUrl(
+            e,
+            "/api/v1/image-generator/diffusion/sd3",
+            selectedPreset
+          ),
+          getImageUrl(
+            e,
+            "/api/v1/image-generator/diffusion/sd3-large",
+            selectedPreset
+          ),
+          getImageUrl(
+            e,
+            "/api/v1/image-generator/diffusion/sd3-large-turbo",
+            selectedPreset
+          ),
+          getImageUrl(
+            e,
+            "/api/v1/image-generator/diffusion/ultra",
+            selectedPreset
+          ),
+          getImageUrl(
+            e,
+            "/api/v1/image-generator/diffusion/core",
+            selectedPreset
+          ),
         ]);
 
       setDalle2Url(dalle2);
@@ -95,9 +89,23 @@ export default function Create() {
   };
 
   const presetOptions: StableDiffusionPreset[] = [
-    "3d-model", "analog-film", "anime", "cinematic", "comic-book", "digital-art",
-    "enhance", "fantasy-art", "isometric", "line-art", "low-poly", "modeling",
-    "neon-punk", "origami", "photographic", "pixel-art", "tile-texture",
+    "3d-model",
+    "analog-film",
+    "anime",
+    "cinematic",
+    "comic-book",
+    "digital-art",
+    "enhance",
+    "fantasy-art",
+    "isometric",
+    "line-art",
+    "low-poly",
+    "modeling",
+    "neon-punk",
+    "origami",
+    "photographic",
+    "pixel-art",
+    "tile-texture",
   ];
 
   return (
@@ -116,12 +124,18 @@ export default function Create() {
             <label class="block mb-1 font-medium">Preset</label>
             <select
               value={selectedPreset}
-              onChange={(e) => setSelectedPreset((e.target as HTMLSelectElement).value as StableDiffusionPreset)}
+              onChange={(e) =>
+                setSelectedPreset(
+                  (e.target as HTMLSelectElement).value as StableDiffusionPreset
+                )
+              }
               class="border p-2 w-full rounded"
             >
               {presetOptions.map((preset) => (
                 <option value={preset} key={preset}>
-                  {preset.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                  {preset
+                    .replace(/-/g, " ")
+                    .replace(/\b\w/g, (c) => c.toUpperCase())}
                 </option>
               ))}
             </select>
@@ -138,12 +152,24 @@ export default function Create() {
         </form>
 
         {/* Render all images the same as before */}
-        {[["Dalle2", dalle2Url], ["Dalle3", dalle3Url], ["Diffusion", diffusionUrl], ["sD3Large", sD3Large], ["sD3LargeTurbo", sD3LargeTurboUrl], ["Core", coreUrl], ["Ultra", ultraUrl]].map(
+        {[
+          ["Dalle2", dalle2Url],
+          ["Dalle3", dalle3Url],
+          ["Diffusion", diffusionUrl],
+          ["sD3Large", sD3Large],
+          ["sD3LargeTurbo", sD3LargeTurboUrl],
+          ["Core", coreUrl],
+          ["Ultra", ultraUrl],
+        ].map(
           ([label, url]) =>
             url && (
               <div class="mt-6" key={label}>
                 <p class="font-medium mb-2">{label}:</p>
-                <img src={url} alt={label} class="mt-2 max-w-full border rounded" />
+                <img
+                  src={url}
+                  alt={label}
+                  class="mt-2 max-w-full border rounded"
+                />
               </div>
             )
         )}

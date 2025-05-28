@@ -1,8 +1,9 @@
-import Router from 'preact-router';
+import Router from "preact-router";
 import TopBar from "./components/TopBar";
-import GenerateAll from './pages/GenerateAll';
-import { Edit } from './pages/Edit';
-import Create from './pages/Create';
+import GenerateAll from "./routes/GenerateAll";
+import { Edit } from "./routes/Edit";
+import Create from "./routes/Create";
+import Demo from "./routes/Demo";
 
 export const App = () => (
   <div>
@@ -11,6 +12,7 @@ export const App = () => (
       <GenerateAll path="/" />
       <Create path="/create" />
       <Edit path="/edit" />
+      <Demo path="/demo" />
     </Router>
   </div>
 );
