@@ -17,7 +17,7 @@ export class StickerClient {
     private path: string;
 
     constructor() {
-        this.baseUrl = "http://localhost:3000";
+        this.baseUrl = "https://indeslb-06199c886a7f.herokuapp.com";
         this.path = "/v1/api/sticker";
     }
 
