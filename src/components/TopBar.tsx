@@ -9,7 +9,8 @@ export default function TopBar() {
                 <a href="/" class="hover:underline text-gray-200">Home</a>
                 <a href="/create" class="hover:underline text-gray-200">Create</a>
                 <a href="/edit" class="hover:underline text-gray-200">Edit</a>
-                <a href="/demot" class="hover:underline text-gray-200">Demo May 28</a>
+                <a href="/stickers" class="hover:underline text-gray-200">Stickers</a>
+                <a href="/demo" class="hover:underline text-gray-200">Demo Label Design</a>
             </div>
         </nav>
     );

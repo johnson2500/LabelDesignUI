@@ -8,7 +8,7 @@ export function ImageGallery() {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const res = await fetch('/api/v1/images');
+                const res = await fetch('/api/v1/image-generator/images'); // Adjust the endpoint as needed
                 if (!res.ok) throw new Error(`HTTP error ${res.status}`);
                 const urls = await res.json(); // assuming the API returns an array of strings
                 setImages(urls);

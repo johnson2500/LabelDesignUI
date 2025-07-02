@@ -11,7 +11,7 @@ export default function ImageGallery() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/v1/images`);
+        const res = await fetch(`${baseUrl}/v1/api/image-generator/images`);
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         const urls = await res.json();
         setImages(urls);
