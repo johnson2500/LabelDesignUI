@@ -43,31 +43,31 @@ export default function Create() {
 
       const [dalle2, dalle3, sd3, sd3Large, sd3LargeTurbo, ultra, core] =
         await Promise.all([
-          getImageUrl(e, "/api/v1/image-generator/dalle2", selectedPreset),
-          getImageUrl(e, "/api/v1/image-generator/dalle3", selectedPreset),
+          getImageUrl(e, "/v1/api/image-generator/dalle2", selectedPreset),
+          getImageUrl(e, "/v1/api/image-generator/dalle3", selectedPreset),
           getImageUrl(
             e,
-            "/api/v1/image-generator/diffusion/sd3",
+            "/v1/api/image-generator/diffusion/sd3",
             selectedPreset
           ),
           getImageUrl(
             e,
-            "/api/v1/image-generator/diffusion/sd3-large",
+            "/v1/api/image-generator/diffusion/sd3-large",
             selectedPreset
           ),
           getImageUrl(
             e,
-            "/api/v1/image-generator/diffusion/sd3-large-turbo",
+            "/v1/api/image-generator/diffusion/sd3-large-turbo",
             selectedPreset
           ),
           getImageUrl(
             e,
-            "/api/v1/image-generator/diffusion/ultra",
+            "/v1/api/image-generator/diffusion/ultra",
             selectedPreset
           ),
           getImageUrl(
             e,
-            "/api/v1/image-generator/diffusion/core",
+            "/v1/api/image-generator/diffusion/core",
             selectedPreset
           ),
         ]);
