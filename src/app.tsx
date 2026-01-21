@@ -5,6 +5,7 @@ import { Edit } from "./routes/Edit";
 import Create from "./routes/Create";
 import Demo from "./routes/Demo";
 import Stickers from "./routes/Stickers";
+import GoogleProjects from "./routes/GoogleProjects";
 
 export const App = () => (
   <div>
@@ -15,6 +16,7 @@ export const App = () => (
       <Edit path="/edit" />
       <Demo path="/demo" />
       <Stickers path="/stickers" />
+      <GoogleProjects path="/google-projects" />
     </Router>
   </div>
 );

@@ -9,6 +9,8 @@
     "start": "serve -s dist -l $PORT"
   },
   "dependencies": {
+    "firebase": "^11.0.0",
+    "firebase-admin": "^13.6.0",
     "preact": "^10.26.4",
     "preact-router": "^4.1.2",
     "serve": "^14.2.4"

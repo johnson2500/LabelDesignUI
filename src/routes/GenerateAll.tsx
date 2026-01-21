@@ -14,8 +14,9 @@ export default function ImageGallery() {
         const res = await fetch(`${baseUrl}/v1/api/image-generator/images`);
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         const urls = await res.json();
-        setImages(urls);
-        setViewingImages(urls.slice(0, 20));
+        const reversed = [...urls].reverse();
+        setImages(reversed);
+        setViewingImages(reversed.slice(0, 20));
       } catch (err) {
         setError('Failed to load images.');
         console.error(err);

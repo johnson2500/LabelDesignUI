@@ -34,6 +34,8 @@ export default function Create() {
   const [sD3LargeTurboUrl, setsD3LargeTurboUrl] = useState("");
   const [coreUrl, setCoreUrl] = useState("");
   const [ultraUrl, setUltraUrl] = useState("");
+  const [nanoBananaUrl, setNanoBananaUrl] = useState("");
+  const [nanoBananaProUrl, setNanoBananaProUrl] = useState("");
 
   const handleSubmitGenerate = async (e: any) => {
     try {
@@ -41,7 +43,7 @@ export default function Create() {
       setLoading(true);
       setSpinning(true);
 
-      const [dalle2, dalle3, sd3, sd3Large, sd3LargeTurbo, ultra, core] =
+      const [dalle2, dalle3, sd3, sd3Large, sd3LargeTurbo, ultra, core, nanoBanana, nanoBananaPro] =
         await Promise.all([
           getImageUrl(e, "/v1/api/image-generator/dalle2", selectedPreset),
           getImageUrl(e, "/v1/api/image-generator/dalle3", selectedPreset),
@@ -70,6 +72,16 @@ export default function Create() {
             "/v1/api/image-generator/diffusion/core",
             selectedPreset
           ),
+          getImageUrl(
+            e,
+            "/v1/api/image-generator/nano-banana",
+            selectedPreset
+          ),
+          getImageUrl(
+            e,
+            "/v1/api/image-generator/nano-banana-pro",
+            selectedPreset
+          ),
         ]);
 
       setDalle2Url(dalle2);
@@ -79,6 +91,8 @@ export default function Create() {
       setsD3LargeTurboUrl(sd3LargeTurbo);
       setUltraUrl(ultra);
       setCoreUrl(core);
+      setNanoBananaUrl(nanoBanana);
+      setNanoBananaProUrl(nanoBananaPro);
     } catch (error) {
       console.error("Error fetching image:", error);
       alert("Image generation failed.");
@@ -153,11 +167,13 @@ export default function Create() {
 
         {/* Render all images the same as before */}
         {[
+          ["Nano Banana (Gemini)", nanoBananaUrl],
+          ["Nano Banana Pro (Gemini)", nanoBananaProUrl],
           ["Dalle2", dalle2Url],
           ["Dalle3", dalle3Url],
-          ["Diffusion", diffusionUrl],
-          ["sD3Large", sD3Large],
-          ["sD3LargeTurbo", sD3LargeTurboUrl],
+          ["Diffusion SD3", diffusionUrl],
+          ["SD3 Large", sD3Large],
+          ["SD3 Large Turbo", sD3LargeTurboUrl],
           ["Core", coreUrl],
           ["Ultra", ultraUrl],
         ].map(

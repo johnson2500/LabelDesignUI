@@ -7,6 +7,7 @@ export default function TopBar() {
             <div class="text-xl font-semibold">AI Image</div>
             <div class="space-x-4">
                 <a href="/" class="hover:underline text-gray-200">Home</a>
+                <a href="/google-projects" class="hover:underline text-gray-200">Google Projects</a>
                 <a href="/create" class="hover:underline text-gray-200">Create</a>
                 <a href="/edit" class="hover:underline text-gray-200">Edit</a>
                 <a href="/stickers" class="hover:underline text-gray-200">Stickers</a>
