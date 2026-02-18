@@ -9,27 +9,16 @@ export const App = () => {
   const [password, setPassword] = useState<string>("");
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async (password: string) => {
-      const response = await fetch(`${baseUrl}/v1/api/info/signin?password=${password}`);
-
-      if (response.ok) {
-        setAuthenticated(true);
-      }
-    };
-    fetchData(password);
-  }, [password]);
-
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
     const response = await fetch(`${baseUrl}/v1/api/info/signin?password=${password}`);
     
     if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem('app_password', data.token);
       setAuthenticated(true);
+      return true;
     } else {
-      window.alert("Incorrect password");  
+      window.alert("Incorrect password");
+      return false;
     }
   };
 
