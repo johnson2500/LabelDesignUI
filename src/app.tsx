@@ -10,20 +10,19 @@ export const App = () => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const saved = localStorage.getItem('app_password');
-      const response = await fetch(`${baseUrl}/v1/api/signin?password=${saved}`);
+    const fetchData = async (password: string) => {
+      const response = await fetch(`${baseUrl}/v1/api/info/signin?password=${password}`);
 
       if (response.ok) {
         setAuthenticated(true);
       }
     };
-    fetchData();
-  }, []);
+    fetchData(password);
+  }, [password]);
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
-    const response = await fetch(`${baseUrl}/v1/api/signin?password=${password}`);
+    const response = await fetch(`${baseUrl}/v1/api/info/signin?password=${password}`);
     
     if (response.ok) {
       const data = await response.json();
