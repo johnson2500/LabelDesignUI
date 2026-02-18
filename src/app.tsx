@@ -2,7 +2,7 @@ import Router from "preact-router";
 import TopBar from "./components/TopBar";
 import GenerateAll from "./routes/GenerateAll";
 import GoogleProjects from "./routes/GoogleProjects";
-import { useState, useEffect } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { baseUrl } from "./constants";
 
 export const App = () => {
@@ -43,7 +43,7 @@ export const App = () => {
     <div>
       <TopBar />
       <Router>
-        <GenerateAll path="/" />
+        <GoogleProjects path="/" />
         {/* <Create path="/create" /> */}
         {/* <Edit path="/edit" /> */}
         {/* <Demo path="/demo" /> */}
