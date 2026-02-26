@@ -7,9 +7,8 @@ export default function TopBar() {
             <div class="text-xl font-semibold">AI Image</div>
             <div class="space-x-4">
                 <a href="/" class="hover:underline text-gray-200">Home</a>
-                <a href="/google-projects" class="hover:underline text-gray-200">Google Projects</a>
-                <a href="/logs" class="hover:underline text-gray-200">Logs</a>
                 <a href="/projects" class="hover:underline text-gray-200">Projects</a>
+                <a href="/logs" class="hover:underline text-gray-200">Logs</a>
             </div>
         </nav>
     );

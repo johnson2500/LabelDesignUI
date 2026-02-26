@@ -1,6 +1,5 @@
 import Router from "preact-router";
 import TopBar from "./components/TopBar";
-import GoogleProjects from "./routes/GoogleProjects";
 import Logs from "./routes/Logs";
 import Projects from "./routes/Projects";
 import { useState } from "preact/hooks";
@@ -23,35 +22,34 @@ export const App = () => {
     }
   };
 
-  if (!authenticated) {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "4em" }}>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onInput={(e: any) => setPassword(e.target.value)}
-            style={{ marginRight: "0.5em" }}
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
-  }
+  // if (!authenticated) {
+  //   return (
+  //     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "4em" }}>
+  //       <form onSubmit={handleSubmit}>
+  //         <input
+  //           type="password"
+  //           placeholder="Enter password"
+  //           value={password}
+  //           onInput={(e: any) => setPassword(e.target.value)}
+  //           style={{ marginRight: "0.5em" }}
+  //         />
+  //         <button type="submit">Submit</button>
+  //       </form>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
       <TopBar />
       <Router>
-        <GoogleProjects path="/" />
+        <Projects path="/" />
         {/* <Create path="/create" /> */}
         {/* <Edit path="/edit" /> */}
         {/* <Demo path="/demo" /> */}
         {/* <Stickers path="/stickers" /> */}
-        <GoogleProjects path="/google-projects" />
-        <Logs path="/logs" />
         <Projects path="/projects" />
+        <Logs path="/logs" />
       </Router>
     </div>
   );
