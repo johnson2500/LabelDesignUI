@@ -8,6 +8,8 @@ export default function TopBar() {
             <div class="space-x-4">
                 <a href="/" class="hover:underline text-gray-200">Home</a>
                 <a href="/google-projects" class="hover:underline text-gray-200">Google Projects</a>
+                <a href="/logs" class="hover:underline text-gray-200">Logs</a>
+                <a href="/projects" class="hover:underline text-gray-200">Projects</a>
             </div>
         </nav>
     );
