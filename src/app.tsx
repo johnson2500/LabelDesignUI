@@ -90,7 +90,7 @@ export const App = () => {
     return (
       <div class="flex items-center justify-center min-h-screen bg-gray-50">
         <div class="w-full max-w-sm bg-white rounded-xl shadow-lg border border-gray-200 p-8">
-          <h1 class="text-xl font-bold text-gray-800 text-center mb-1">AI Image</h1>
+          <h1 class="text-xl font-bold text-gray-800 text-center mb-1">Mystery Label Design</h1>
           <p class="text-sm text-gray-500 text-center mb-6">Sign in to continue</p>
 
           <form onSubmit={handleSubmit} class="space-y-4">
