@@ -186,6 +186,47 @@ export default function Logs() {
   const [hasMore, setHasMore] = useState(true);
   const [selectedLog, setSelectedLog] = useState<Log | null>(null);
 
+  const [ipToRestrict, setIpToRestrict] = useState('');
+  const [restrictLoading, setRestrictLoading] = useState(false);
+  const [restrictError, setRestrictError] = useState<string | null>(null);
+  const [restrictSuccess, setRestrictSuccess] = useState(false);
+  const [blacklist, setBlacklist] = useState<{ ipAddress: string }[]>([]);
+
+  const fetchBlacklist = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/internal/ip-blacklist`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data: { ipAddress: string }[] = await res.json();
+      setBlacklist(Array.isArray(data) ? data : []);
+    } catch {
+      setBlacklist([]);
+    }
+  };
+
+  const addToBlacklist = async () => {
+    const ip = ipToRestrict.trim();
+    if (!ip) return;
+    setRestrictLoading(true);
+    setRestrictError(null);
+    setRestrictSuccess(false);
+    try {
+      const res = await fetch(`${baseUrl}/internal/ip-blacklist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ipAddress: ip }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.message || `HTTP ${res.status}`);
+      setRestrictSuccess(true);
+      setIpToRestrict('');
+      fetchBlacklist();
+    } catch (err: any) {
+      setRestrictError(err?.message || 'Failed to add IP');
+    } finally {
+      setRestrictLoading(false);
+    }
+  };
+
   const fetchLogs = async (pageNum: number) => {
     setLoading(true);
     setError(null);
@@ -207,6 +248,10 @@ export default function Logs() {
     fetchLogs(page);
   }, [page]);
 
+  useEffect(() => {
+    fetchBlacklist();
+  }, []);
+
   const goToPrev = () => setPage((p) => Math.max(0, p - 1));
   const goToNext = () => setPage((p) => p + 1);
 
@@ -221,6 +266,57 @@ export default function Logs() {
         <p class="text-gray-500 mt-1">
           Most recent API activity — {PAGE_SIZE} per page
         </p>
+      </div>
+
+      {/* Restrict IP */}
+      <div class="bg-white rounded-xl shadow-md border border-gray-200 p-4 mb-6">
+        <h2 class="text-sm font-semibold text-gray-700 mb-3">Restrict IP</h2>
+        <p class="text-xs text-gray-500 mb-3">
+          Add an IP address to block it from using the API.
+        </p>
+        <div class="flex flex-wrap items-center gap-2">
+          <input
+            type="text"
+            value={ipToRestrict}
+            onInput={(e) => {
+              setIpToRestrict((e.target as HTMLInputElement).value);
+              setRestrictError(null);
+              setRestrictSuccess(false);
+            }}
+            placeholder="e.g. 192.168.1.1"
+            class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono min-w-[180px] focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          />
+          <button
+            onClick={addToBlacklist}
+            disabled={!ipToRestrict.trim() || restrictLoading}
+            class="px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {restrictLoading ? 'Adding…' : 'Add to restrict list'}
+          </button>
+        </div>
+        {restrictError && (
+          <p class="mt-2 text-sm text-red-600">{restrictError}</p>
+        )}
+        {restrictSuccess && (
+          <p class="mt-2 text-sm text-green-600">IP added to restrict list.</p>
+        )}
+        {blacklist.length > 0 && (
+          <div class="mt-3 pt-3 border-t border-gray-100">
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+              Restricted IPs ({blacklist.length})
+            </p>
+            <ul class="flex flex-wrap gap-2">
+              {blacklist.map((item, i) => (
+                <li
+                  key={i}
+                  class="px-2 py-1 bg-gray-100 text-gray-700 text-xs font-mono rounded"
+                >
+                  {item.ipAddress}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Error state */}
