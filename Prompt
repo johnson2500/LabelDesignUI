@@ -1,0 +1,103 @@
+export interface ShopifyReference {
+  id: string;
+  shopifyId: string;
+  handle: string;
+  title: string;
+}
+
+export interface ProjectFile {
+  name: string;
+  size?: number;
+  type: string;
+  lastModified?: number;
+  status: string;
+  error?: string;
+  bundleId?: string;
+  storagePath: string;
+  fileId?: string;
+  fileType?: string;
+  downloadUrl?: string;
+  fileInfo?: {
+    name: string;
+    size: number;
+    type: string;
+    lastModified: number;
+  };
+}
+
+export interface Summary {
+  turnaroundName: string;
+  turnaround: string;
+  projectName: string;
+  dueDate: string;
+  package?: string;
+  packageName?: string;
+  customDate?: string;
+}
+
+export interface NewProject {
+  id: string;
+  bundleId: string;
+  currentStep: string;
+  createdAt: string;
+  updatedAt: string;
+  cartId?: string;
+  formData: {
+    selection: ShopifyReference & { selectionType: "new" };
+    projectType: { name: string; id: string };
+    summary: Summary;
+    designType: Partial<ShopifyReference> & { type: string | null };
+    design: {
+      uploadedFiles: ProjectFile[];
+      shape: { displayName: string; id: string } | null;
+      size: { displayName: string; isCustom: boolean; id: string } | null;
+      customDimensions: any | null;
+      designDescription: string;
+      bundleId: string;
+      customFileTypeInput: { show: boolean; value: string };
+      fileTypes: {
+        preSelectedFileTypes: string[];
+        additionalFileTypes: string[];
+      };
+    };
+    edit: {
+      editItems: []; // Always empty for New projects
+      files: [];
+    };
+  };
+}
+
+export interface EditItem {
+  id: number;
+  type: string;
+  description: string;
+  needsFile: boolean;
+  files: ProjectFile[];
+  isFree: boolean;
+  fileUploadValid: boolean;
+}
+
+export interface EditProject {
+  id: string;
+  bundleId: string;
+  currentStep: string;
+  createdAt: string;
+  updatedAt: string;
+  cartId?: string;
+  formData: {
+    selection: ShopifyReference & { selectionType: "edit" };
+    projectType: { name: string; id: string };
+    summary: Summary;
+    edit: {
+      editItems: EditItem[];
+      files: ProjectFile[]; // Original source files for the edit
+    };
+    designType: { type: null }; // Usually null in Edit flow
+    design: {
+      uploadedFiles: [];
+      shape: null;
+      size: null;
+      customDimensions: null;
+    };
+  };
+}
